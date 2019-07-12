@@ -1,0 +1,50 @@
+---
+- hosts: localhost
+  name: Teste Extra Vars
+  gather_facts: no
+  vars:
+    imagetype: "png"
+  tasks:
+
+    - name: "Load Vars File"
+      include_vars:
+        file: files/vars.yaml
+
+    - name: Install Packages
+      yum: name={{ item }} state=present update_cache=yes
+      with_items:
+        - ImageMagick.x86_64
+        - ImageMagick-devel.x86_64
+      when: logotipo is defined
+
+    - name: Resize Image
+      shell: convert {{ logotipo }} -resize 200x80\! -quality 100 {{ logotipo.split('.')[0] | lower }}.png
+      when: logotipo is defined
+
+    - name: Convert image in base64
+      shell: base64 {{ logotipo }}
+      register: logo
+      when: logotipo is defined
+
+    - name: Define Vars
+      set_fact:
+        BGCOLOR_DEFAULT: "{{ bgcolor | default(bgcolordefault) }}"
+        TYPE_IMAGE: "{{ imagetype | default(imagetypedefault) }}"
+        LOGO_CUSTOM: "{{ logo.stdout | default(logodefault) }}"
+
+    - name: Copy file
+      copy:
+        src: files/login-template.j2
+        dest: login-template.html
+
+    - name: Replace all vars
+      replace:
+        path: login-template.html
+        regexp: "{{ item.src }}"
+        replace: "{{ item.dest }}"
+        backup: yes
+      with_items:
+        - { src: "BGCOLOR_DEFAULT", dest: "{{ BGCOLOR_DEFAULT }}" }
+        - { src: "TYPE_IMAGE", dest: "{{ TYPE_IMAGE }}" }
+        - { src: "LOGO_CUSTOM", dest: "{{ LOGO_CUSTOM }}" }
+
