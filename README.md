@@ -5,6 +5,8 @@
 
 ```
 ansible-playbook playbook_custom_console.yaml -e "logotipo=/path/image.png" -e "bgcolor=colorname" -e "imagetype=png"
+
+Obs.: In bgcolor is possible use the color name or hexcode
 ```
 
 
