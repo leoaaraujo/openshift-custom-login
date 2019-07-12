@@ -33,6 +33,6 @@ oauthConfig:
 master-restart api api && master-restart controllers controllers
 ```
 
-* Before the restart, access your console:
+* After the restart, access your console:
 
 <img width="595" alt="01" src="https://github.com/leoaaraujo/openshift-custom-login/blob/2f6a781599dc64f38efc5056b74ceb06b2f38a9d/custom-login.png">
