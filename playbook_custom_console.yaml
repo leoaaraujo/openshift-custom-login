@@ -1,6 +1,6 @@
 ---
 - hosts: localhost
-  name: Teste Extra Vars
+  name: Create Custom Login Page
   gather_facts: no
   vars:
     imagetype: "png"
