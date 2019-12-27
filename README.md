@@ -1,5 +1,6 @@
 # Openshift Login - Customizing Login Page
 
+[![Codeac.io](https://static.codeac.io/badges/2-196510381.svg)](https://app.codeac.io/github/leoaaraujo/openshift-custom-login)
 
 * Run the playbook:
 
